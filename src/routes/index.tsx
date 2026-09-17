@@ -159,7 +159,7 @@ function LandingPage() {
           {samples.map(([src, alt], i) => (
             <button key={src} type="button" onClick={() => setZoom(i)} aria-label={`Ampliar: ${alt}`} className="card-soft group relative w-[80%] shrink-0 cursor-zoom-in snap-center overflow-hidden text-left transition-shadow hover:shadow-[var(--shadow-cta)] sm:w-auto">
               <img src={src} alt={alt} loading="lazy" className="w-full transition-transform duration-300 group-hover:scale-[1.03]" />
-              <span className="pointer-events-none absolute bottom-2 right-2 flex items-center gap-1 rounded-full bg-card/90 px-2.5 py-1 text-[0.6rem] font-extrabold uppercase tracking-widest text-foreground opacity-0 shadow-sm transition-opacity duration-200 group-hover:opacity-100"><ZoomIn className="size-3" />Ampliar</span>
+              <span className="pointer-events-none absolute bottom-2 right-2 hidden items-center gap-1 rounded-full bg-card/90 px-2.5 py-1 text-[0.6rem] font-extrabold uppercase tracking-widest text-foreground opacity-0 shadow-sm transition-opacity duration-200 group-hover:opacity-100 sm:flex"><ZoomIn className="size-3" />Ampliar</span>
             </button>
           ))}
         </div>
@@ -227,12 +227,12 @@ function LandingPage() {
       <section className="px-5 py-10 text-center"><h2 className="text-balance text-2xl font-extrabold leading-tight">Seu filho pode começar hoje, com 10 minutos por dia.</h2><div className="mt-5 rounded-3xl bg-sky-soft px-4 py-5"><p className="font-display text-lg font-extrabold leading-tight">Meu Primeiro Plano Bilíngue em Casa</p><p className="mt-1 text-sm font-bold text-muted-foreground">R$ 16,90 • pagamento único</p><div className="mt-4"><CTA href={checkout} /></div></div></section>
       <footer className="border-t border-border px-5 py-8 text-center text-xs text-muted-foreground"><p className="font-bold text-foreground">Meu Primeiro Plano Bilíngue em Casa</p><p className="mt-2 leading-relaxed">Material educativo digital para uso familiar. Os resultados variam conforme a rotina e o ritmo de cada criança.</p></footer>
     </main>
-    {zoom !== null && (
+    {zoom !== null && samples[zoom] && (
       <div role="dialog" aria-modal="true" aria-label="Amostra ampliada" onClick={() => setZoom(null)} className="fixed inset-0 z-[60] flex flex-col items-center justify-center bg-foreground/85 p-4 backdrop-blur-sm">
         <button type="button" aria-label="Fechar" onClick={() => setZoom(null)} className="absolute right-4 top-4 flex size-10 items-center justify-center rounded-full bg-card/90 text-foreground shadow-md transition-transform active:scale-90"><X className="size-5" /></button>
         {samples.length > 1 && <>
-          <button type="button" aria-label="Amostra anterior" onClick={(e) => { e.stopPropagation(); setZoom((z) => (z === null ? z : (z + samples.length - 1) % samples.length)); }} className="absolute left-3 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-card/90 text-foreground shadow-md transition-transform active:scale-90"><ChevronLeft className="size-5" /></button>
-          <button type="button" aria-label="Próxima amostra" onClick={(e) => { e.stopPropagation(); setZoom((z) => (z === null ? z : (z + 1) % samples.length)); }} className="absolute right-3 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-card/90 text-foreground shadow-md transition-transform active:scale-90"><ChevronRight className="size-5" /></button>
+          <button type="button" aria-label="Amostra anterior" onClick={(e) => { e.stopPropagation(); setZoom((z) => (z === null ? z : (z + samples.length - 1) % samples.length)); }} className="absolute left-3 top-1/2 z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-card/90 text-foreground shadow-md transition-transform active:scale-90"><ChevronLeft className="size-5" /></button>
+          <button type="button" aria-label="Próxima amostra" onClick={(e) => { e.stopPropagation(); setZoom((z) => (z === null ? z : (z + 1) % samples.length)); }} className="absolute right-3 top-1/2 z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-card/90 text-foreground shadow-md transition-transform active:scale-90"><ChevronRight className="size-5" /></button>
         </>}
         <figure className="w-full max-w-lg" onClick={(e) => e.stopPropagation()}>
           <img src={samples[zoom][0]} alt={samples[zoom][1]} className="mx-auto max-h-[72vh] w-auto rounded-2xl bg-card shadow-2xl" />
