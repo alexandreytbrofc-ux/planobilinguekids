@@ -4,6 +4,8 @@ import {
   CalendarDays,
   Check,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Gamepad2,
   Images,
   Lock,
@@ -13,6 +15,7 @@ import {
   Printer,
   ShieldCheck,
   Star,
+  X,
 } from "lucide-react";
 import coverAsset from "../assets/Meu_Primeiro_Plano_Bilingue_Capa.png.asset.json";
 import bonusAsset from "../assets/Bonus_Livro_de_Colorir_Capa-81.png.asset.json";
@@ -87,6 +90,13 @@ function Heading({ children }: { children: ReactNode }) {
 function Stars() {
   return <div className="flex gap-0.5 text-sunny" aria-label="5 estrelas">{Array.from({ length: 5 }, (_, i) => <Star key={i} className="size-4 fill-current" />)}</div>;
 }
+
+const samples: [string, string][] = [
+  [sample41.url, "Flashcards bilíngues de objetos da casa: chair, table, bed, door e window"],
+  [sample42.url, "Flashcards bilíngues de brinquedos: ball, book, toy, doll e car"],
+  [sample43.url, "Atividade para imprimir: contar alimentos no prato em inglês"],
+  [sample44.url, "Página de vocabulário de alimentos em inglês com frases simples para os pais"],
+];
 
 function LandingPage() {
   const [showSticky, setShowSticky] = useState(false);
