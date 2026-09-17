@@ -100,12 +100,27 @@ const samples: [string, string][] = [
 
 function LandingPage() {
   const [showSticky, setShowSticky] = useState(false);
+  const [zoom, setZoom] = useState<number | null>(null);
   useEffect(() => {
     const update = () => setShowSticky(window.scrollY > 500);
     update();
     window.addEventListener("scroll", update, { passive: true });
     return () => window.removeEventListener("scroll", update);
   }, []);
+  useEffect(() => {
+    if (zoom === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setZoom(null);
+      if (e.key === "ArrowRight") setZoom((z) => (z === null ? z : (z + 1) % samples.length));
+      if (e.key === "ArrowLeft") setZoom((z) => (z === null ? z : (z + samples.length - 1) % samples.length));
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [zoom === null]);
 
   return <>
     <main className="mx-auto w-full max-w-md overflow-hidden bg-background pb-24 sm:max-w-xl sm:pb-0">
