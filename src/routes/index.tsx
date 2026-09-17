@@ -16,6 +16,7 @@ import {
   ShieldCheck,
   Star,
   X,
+  ZoomIn,
 } from "lucide-react";
 import coverAsset from "../assets/Meu_Primeiro_Plano_Bilingue_Capa.png.asset.json";
 import bonusAsset from "../assets/Bonus_Livro_de_Colorir_Capa-81.png.asset.json";
@@ -226,6 +227,20 @@ function LandingPage() {
       <section className="px-5 py-10 text-center"><h2 className="text-balance text-2xl font-extrabold leading-tight">Seu filho pode começar hoje, com 10 minutos por dia.</h2><div className="mt-5 rounded-3xl bg-sky-soft px-4 py-5"><p className="font-display text-lg font-extrabold leading-tight">Meu Primeiro Plano Bilíngue em Casa</p><p className="mt-1 text-sm font-bold text-muted-foreground">R$ 16,90 • pagamento único</p><div className="mt-4"><CTA href={checkout} /></div></div></section>
       <footer className="border-t border-border px-5 py-8 text-center text-xs text-muted-foreground"><p className="font-bold text-foreground">Meu Primeiro Plano Bilíngue em Casa</p><p className="mt-2 leading-relaxed">Material educativo digital para uso familiar. Os resultados variam conforme a rotina e o ritmo de cada criança.</p></footer>
     </main>
+    {zoom !== null && (
+      <div role="dialog" aria-modal="true" aria-label="Amostra ampliada" onClick={() => setZoom(null)} className="fixed inset-0 z-[60] flex flex-col items-center justify-center bg-foreground/85 p-4 backdrop-blur-sm">
+        <button type="button" aria-label="Fechar" onClick={() => setZoom(null)} className="absolute right-4 top-4 flex size-10 items-center justify-center rounded-full bg-card/90 text-foreground shadow-md transition-transform active:scale-90"><X className="size-5" /></button>
+        {samples.length > 1 && <>
+          <button type="button" aria-label="Amostra anterior" onClick={(e) => { e.stopPropagation(); setZoom((z) => (z === null ? z : (z + samples.length - 1) % samples.length)); }} className="absolute left-3 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-card/90 text-foreground shadow-md transition-transform active:scale-90"><ChevronLeft className="size-5" /></button>
+          <button type="button" aria-label="Próxima amostra" onClick={(e) => { e.stopPropagation(); setZoom((z) => (z === null ? z : (z + 1) % samples.length)); }} className="absolute right-3 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-card/90 text-foreground shadow-md transition-transform active:scale-90"><ChevronRight className="size-5" /></button>
+        </>}
+        <figure className="w-full max-w-lg" onClick={(e) => e.stopPropagation()}>
+          <img src={samples[zoom][0]} alt={samples[zoom][1]} className="mx-auto max-h-[72vh] w-auto rounded-2xl bg-card shadow-2xl" />
+          <figcaption className="mt-3 text-balance text-center text-sm font-semibold leading-snug text-background">{samples[zoom][1]}</figcaption>
+          <p className="mt-2 text-center text-[0.65rem] font-bold uppercase tracking-widest text-background/60">{zoom + 1} de {samples.length} • toque fora para fechar</p>
+        </figure>
+      </div>
+    )}
     <div className={`fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card/95 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur-sm transition-opacity duration-200 sm:hidden ${showSticky ? "opacity-100" : "pointer-events-none opacity-0"}`}><a href="#oferta" className="cta-surface flex w-full items-center justify-center rounded-full px-5 py-4 text-center text-[0.82rem] font-extrabold uppercase leading-tight tracking-wide">QUERO O PLANO — R$ 16,90</a></div>
   </>;
 }
