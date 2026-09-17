@@ -155,12 +155,12 @@ function LandingPage() {
         <Heading>Veja o que seu filho vai usar</Heading>
         <p className="mx-auto mt-3 max-w-prose text-balance text-center text-sm leading-relaxed text-muted-foreground">Atividades prontas para imprimir e usar durante os 30 dias do plano.</p>
         <div className="hide-scrollbar -mx-5 mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-3 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0">
-          {[
-            [sample41.url, "Flashcards bilíngues de objetos da casa: chair, table, bed, door e window"],
-            [sample42.url, "Flashcards bilíngues de brinquedos: ball, book, toy, doll e car"],
-            [sample43.url, "Atividade para imprimir: contar alimentos no prato em inglês"],
-            [sample44.url, "Página de vocabulário de alimentos em inglês com frases simples para os pais"],
-          ].map(([src, alt]) => <figure key={src} className="card-soft w-[80%] shrink-0 snap-center overflow-hidden sm:w-auto"><img src={src} alt={alt} loading="lazy" className="w-full" /></figure>)}
+          {samples.map(([src, alt], i) => (
+            <button key={src} type="button" onClick={() => setZoom(i)} aria-label={`Ampliar: ${alt}`} className="card-soft group relative w-[80%] shrink-0 cursor-zoom-in snap-center overflow-hidden text-left transition-shadow hover:shadow-[var(--shadow-cta)] sm:w-auto">
+              <img src={src} alt={alt} loading="lazy" className="w-full transition-transform duration-300 group-hover:scale-[1.03]" />
+              <span className="pointer-events-none absolute bottom-2 right-2 flex items-center gap-1 rounded-full bg-card/90 px-2.5 py-1 text-[0.6rem] font-extrabold uppercase tracking-widest text-foreground opacity-0 shadow-sm transition-opacity duration-200 group-hover:opacity-100"><ZoomIn className="size-3" />Ampliar</span>
+            </button>
+          ))}
         </div>
         <p className="mt-1 text-center text-[0.65rem] font-bold uppercase tracking-widest text-muted-foreground sm:hidden">Arraste para o lado para ver mais</p>
         <div className="mx-auto mt-6 max-w-sm"><CTA small /></div>
