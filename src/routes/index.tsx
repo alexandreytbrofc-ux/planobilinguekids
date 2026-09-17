@@ -4,6 +4,8 @@ import {
   CalendarDays,
   Check,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Gamepad2,
   Images,
   Lock,
@@ -13,6 +15,8 @@ import {
   Printer,
   ShieldCheck,
   Star,
+  X,
+  ZoomIn,
 } from "lucide-react";
 import coverAsset from "../assets/Meu_Primeiro_Plano_Bilingue_Capa.png.asset.json";
 import bonusAsset from "../assets/Bonus_Livro_de_Colorir_Capa-81.png.asset.json";
@@ -88,14 +92,36 @@ function Stars() {
   return <div className="flex gap-0.5 text-sunny" aria-label="5 estrelas">{Array.from({ length: 5 }, (_, i) => <Star key={i} className="size-4 fill-current" />)}</div>;
 }
 
+const samples: [string, string][] = [
+  [sample41.url, "Flashcards bilíngues de objetos da casa: chair, table, bed, door e window"],
+  [sample42.url, "Flashcards bilíngues de brinquedos: ball, book, toy, doll e car"],
+  [sample43.url, "Atividade para imprimir: contar alimentos no prato em inglês"],
+  [sample44.url, "Página de vocabulário de alimentos em inglês com frases simples para os pais"],
+];
+
 function LandingPage() {
   const [showSticky, setShowSticky] = useState(false);
+  const [zoom, setZoom] = useState<number | null>(null);
   useEffect(() => {
     const update = () => setShowSticky(window.scrollY > 500);
     update();
     window.addEventListener("scroll", update, { passive: true });
     return () => window.removeEventListener("scroll", update);
   }, []);
+  useEffect(() => {
+    if (zoom === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setZoom(null);
+      if (e.key === "ArrowRight") setZoom((z) => (z === null ? z : (z + 1) % samples.length));
+      if (e.key === "ArrowLeft") setZoom((z) => (z === null ? z : (z + samples.length - 1) % samples.length));
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [zoom === null]);
 
   return <>
     <main className="mx-auto w-full max-w-md overflow-hidden bg-background pb-24 sm:max-w-xl sm:pb-0">
@@ -130,12 +156,12 @@ function LandingPage() {
         <Heading>Veja o que seu filho vai usar</Heading>
         <p className="mx-auto mt-3 max-w-prose text-balance text-center text-sm leading-relaxed text-muted-foreground">Atividades prontas para imprimir e usar durante os 30 dias do plano.</p>
         <div className="hide-scrollbar -mx-5 mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-3 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0">
-          {[
-            [sample41.url, "Flashcards bilíngues de objetos da casa: chair, table, bed, door e window"],
-            [sample42.url, "Flashcards bilíngues de brinquedos: ball, book, toy, doll e car"],
-            [sample43.url, "Atividade para imprimir: contar alimentos no prato em inglês"],
-            [sample44.url, "Página de vocabulário de alimentos em inglês com frases simples para os pais"],
-          ].map(([src, alt]) => <figure key={src} className="card-soft w-[80%] shrink-0 snap-center overflow-hidden sm:w-auto"><img src={src} alt={alt} loading="lazy" className="w-full" /></figure>)}
+          {samples.map(([src, alt], i) => (
+            <button key={src} type="button" onClick={() => setZoom(i)} aria-label={`Ampliar: ${alt}`} className="card-soft group relative w-[80%] shrink-0 cursor-zoom-in snap-center overflow-hidden text-left transition-shadow hover:shadow-[var(--shadow-cta)] sm:w-auto">
+              <img src={src} alt={alt} loading="lazy" className="w-full transition-transform duration-300 group-hover:scale-[1.03]" />
+              <span className="pointer-events-none absolute bottom-2 right-2 hidden items-center gap-1 rounded-full bg-card/90 px-2.5 py-1 text-[0.6rem] font-extrabold uppercase tracking-widest text-foreground opacity-0 shadow-sm transition-opacity duration-200 group-hover:opacity-100 sm:flex"><ZoomIn className="size-3" />Ampliar</span>
+            </button>
+          ))}
         </div>
         <p className="mt-1 text-center text-[0.65rem] font-bold uppercase tracking-widest text-muted-foreground sm:hidden">Arraste para o lado para ver mais</p>
         <div className="mx-auto mt-6 max-w-sm"><CTA small /></div>
@@ -201,6 +227,20 @@ function LandingPage() {
       <section className="px-5 py-10 text-center"><h2 className="text-balance text-2xl font-extrabold leading-tight">Seu filho pode começar hoje, com 10 minutos por dia.</h2><div className="mt-5 rounded-3xl bg-sky-soft px-4 py-5"><p className="font-display text-lg font-extrabold leading-tight">Meu Primeiro Plano Bilíngue em Casa</p><p className="mt-1 text-sm font-bold text-muted-foreground">R$ 16,90 • pagamento único</p><div className="mt-4"><CTA href={checkout} /></div></div></section>
       <footer className="border-t border-border px-5 py-8 text-center text-xs text-muted-foreground"><p className="font-bold text-foreground">Meu Primeiro Plano Bilíngue em Casa</p><p className="mt-2 leading-relaxed">Material educativo digital para uso familiar. Os resultados variam conforme a rotina e o ritmo de cada criança.</p></footer>
     </main>
+    {zoom !== null && samples[zoom] && (
+      <div role="dialog" aria-modal="true" aria-label="Amostra ampliada" onClick={() => setZoom(null)} className="fixed inset-0 z-[60] flex flex-col items-center justify-center bg-foreground/85 p-4 backdrop-blur-sm">
+        <button type="button" aria-label="Fechar" onClick={() => setZoom(null)} className="absolute right-4 top-4 flex size-10 items-center justify-center rounded-full bg-card/90 text-foreground shadow-md transition-transform active:scale-90"><X className="size-5" /></button>
+        {samples.length > 1 && <>
+          <button type="button" aria-label="Amostra anterior" onClick={(e) => { e.stopPropagation(); setZoom((z) => (z === null ? z : (z + samples.length - 1) % samples.length)); }} className="absolute left-3 top-1/2 z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-card/90 text-foreground shadow-md transition-transform active:scale-90"><ChevronLeft className="size-5" /></button>
+          <button type="button" aria-label="Próxima amostra" onClick={(e) => { e.stopPropagation(); setZoom((z) => (z === null ? z : (z + 1) % samples.length)); }} className="absolute right-3 top-1/2 z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-card/90 text-foreground shadow-md transition-transform active:scale-90"><ChevronRight className="size-5" /></button>
+        </>}
+        <figure className="w-full max-w-lg" onClick={(e) => e.stopPropagation()}>
+          <img src={samples[zoom][0]} alt={samples[zoom][1]} className="mx-auto max-h-[72vh] w-auto rounded-2xl bg-card shadow-2xl" />
+          <figcaption className="mt-3 text-balance text-center text-sm font-semibold leading-snug text-background">{samples[zoom][1]}</figcaption>
+          <p className="mt-2 text-center text-[0.65rem] font-bold uppercase tracking-widest text-background/60">{zoom + 1} de {samples.length} • toque fora para fechar</p>
+        </figure>
+      </div>
+    )}
     <div className={`fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card/95 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur-sm transition-opacity duration-200 sm:hidden ${showSticky ? "opacity-100" : "pointer-events-none opacity-0"}`}><a href="#oferta" className="cta-surface flex w-full items-center justify-center rounded-full px-5 py-4 text-center text-[0.82rem] font-extrabold uppercase leading-tight tracking-wide">QUERO O PLANO — R$ 16,90</a></div>
   </>;
 }
