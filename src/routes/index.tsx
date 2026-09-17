@@ -143,18 +143,18 @@ function LandingPage() {
 
       <section className="bg-secondary/50 px-5 py-10">
         <Heading>Como funciona</Heading>
-        <div className="mt-6 space-y-4">
+        <ol className="mt-6 space-y-3">
           {[
             ["01", "RECEBA O MATERIAL", "Após a confirmação do pagamento, você recebe o acesso digital ao material."],
             ["02", "IMPRIMA AS ATIVIDADES", "Escolha a atividade indicada no plano e prepare o material."],
             ["03", "FAÇA 10 MINUTOS POR DIA", "Siga o plano durante os 30 dias com seu filho."],
-          ].map(([n, title, text]) => <article key={n} className="card-soft flex gap-4 p-4"><span className="font-display text-3xl font-extrabold leading-none text-primary">{n}</span><div><h3 className="text-base font-extrabold leading-tight">{title}</h3><p className="mt-1 text-sm leading-relaxed text-muted-foreground">{text}</p></div></article>)}
-        </div>
+          ].map(([n, title, text]) => <li key={n} className="card-soft flex gap-4 p-4"><span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-sky-soft font-display text-sm font-extrabold text-primary">{n}</span><div className="min-w-0"><h3 className="text-sm font-extrabold uppercase tracking-wide">{title}</h3><p className="mt-1 text-sm text-muted-foreground">{text}</p></div></li>)}
+        </ol>
       </section>
 
       <section className="px-5 py-10">
         <Heading>O que vem no produto</Heading>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        <div className="mt-6 space-y-4">
           {[
             [Images, "bg-sky-soft", "50+ Flashcards Bilíngues", "Cores, números, animais, família, corpo, alimentos, objetos e ações."],
             [Printer, "bg-mint-soft", "60 Atividades Temáticas", "Ligar, pintar, circular, recortar, procurar e brincar."],
@@ -190,17 +190,17 @@ function LandingPage() {
           <div className="mt-5"><CTA href={checkout} /></div>
           <p className="mt-3 flex items-center justify-center gap-2 text-xs font-semibold text-muted-foreground"><Lock className="size-3.5 shrink-0" />Acesso digital após a confirmação do pagamento</p>
         </div>
-        <div className="card-soft mt-5 flex gap-4 bg-mint-soft p-5"><ShieldCheck className="mt-0.5 size-8 shrink-0 text-accent-foreground" /><div><h3 className="text-lg font-extrabold leading-tight text-accent-foreground">7 dias para conhecer o material</h3><p className="mt-1.5 text-sm leading-relaxed text-accent-foreground">Se não fizer sentido para a rotina da sua família, você pode solicitar o reembolso dentro do prazo de 7 dias.</p></div></div>
+        <div className="card-soft mt-5 flex gap-4 bg-mint-soft p-5"><ShieldCheck className="mt-0.5 size-7 shrink-0 text-accent-foreground" /><div className="min-w-0"><h3 className="text-base font-extrabold leading-tight">7 dias para conhecer o material</h3><p className="mt-1.5 text-sm text-accent-foreground">Se não fizer sentido para a rotina da sua família, você pode solicitar o reembolso dentro do prazo de 7 dias.</p></div></div>
       </section>
 
       <section className="bg-secondary/50 px-5 py-10">
         <Heading>Perguntas frequentes</Heading>
-        <div className="mt-6 space-y-3">{faqs.map(([q, a]) => <details key={q} className="group card-soft overflow-hidden"><summary className="grid cursor-pointer list-none grid-cols-[minmax(0,1fr)_auto] items-center gap-3 p-4 text-sm font-extrabold"><span className="min-w-0">{q}</span><ChevronDown className="size-4 shrink-0 transition-transform duration-200 group-open:rotate-180" /></summary><p className="px-4 pb-4 text-sm leading-relaxed text-muted-foreground">{a}</p></details>)}</div>
+        <div className="mt-6 space-y-3">{faqs.map(([q, a]) => <details key={q} className="group card-soft p-5"><summary className="grid cursor-pointer list-none grid-cols-[minmax(0,1fr)_auto] items-center gap-3 text-sm font-extrabold"><span className="min-w-0">{q}</span><ChevronDown className="size-4 shrink-0 text-primary transition-transform duration-200 group-open:rotate-180" /></summary><p className="mt-2 text-sm text-muted-foreground">{a}</p></details>)}</div>
       </section>
 
-      <section className="px-5 py-10 text-center"><Heading>Seu filho pode começar hoje, com 10 minutos por dia.</Heading><p className="mt-3 text-sm font-bold">Meu Primeiro Plano Bilíngue em Casa</p><p className="mt-1 text-sm text-muted-foreground">R$ 16,90 • pagamento único</p><div className="mx-auto mt-6 max-w-sm"><CTA href={checkout} /></div></section>
+      <section className="px-5 py-10 text-center"><h2 className="text-balance text-2xl font-extrabold leading-tight">Seu filho pode começar hoje, com 10 minutos por dia.</h2><div className="mt-5 rounded-3xl bg-sky-soft px-4 py-5"><p className="font-display text-lg font-extrabold leading-tight">Meu Primeiro Plano Bilíngue em Casa</p><p className="mt-1 text-sm font-bold text-muted-foreground">R$ 16,90 • pagamento único</p><div className="mt-4"><CTA href={checkout} /></div></div></section>
       <footer className="border-t border-border px-5 py-8 text-center text-xs text-muted-foreground"><p className="font-bold text-foreground">Meu Primeiro Plano Bilíngue em Casa</p><p className="mt-2 leading-relaxed">Material educativo digital para uso familiar. Os resultados variam conforme a rotina e o ritmo de cada criança.</p></footer>
     </main>
-    <div className={`fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card/95 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur-sm transition-opacity sm:hidden ${showSticky ? "opacity-100" : "pointer-events-none opacity-0"}`}><div className="mx-auto max-w-md"><a href="#oferta" className="cta-surface flex w-full items-center justify-center rounded-full px-5 py-4 text-center text-[0.82rem] font-extrabold uppercase leading-tight tracking-wide">QUERO O PLANO — R$ 16,90</a></div></div>
+    <div className={`fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card/95 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur-sm transition-opacity duration-200 sm:hidden ${showSticky ? "opacity-100" : "pointer-events-none opacity-0"}`}><a href="#oferta" className="cta-surface flex w-full items-center justify-center rounded-full px-5 py-4 text-center text-[0.82rem] font-extrabold uppercase leading-tight tracking-wide">QUERO O PLANO — R$ 16,90</a></div>
   </>;
 }
