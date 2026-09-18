@@ -82,7 +82,7 @@ function CheckList({ items, spacing = "space-y-2.5" }: { items: string[]; spacin
 
 function CTA({ href = "#oferta", small = false }: { href?: string; small?: boolean }) {
   const external = href.startsWith("http");
-  return <a href={href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined} className={`cta-surface flex w-full items-center justify-center rounded-full px-6 text-center font-extrabold uppercase leading-tight tracking-wide transition-transform active:scale-[0.98] ${small ? "py-4 text-[0.82rem]" : "py-[1.15rem] text-[0.95rem] sm:text-base"}`}>QUERO COMEÇAR O PLANO BILÍNGUE</a>;
+  return <a href={href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined} onClick={external ? trackInitiateCheckout : undefined} className={`cta-surface flex w-full items-center justify-center rounded-full px-6 text-center font-extrabold uppercase leading-tight tracking-wide transition-transform active:scale-[0.98] ${small ? "py-4 text-[0.82rem]" : "py-[1.15rem] text-[0.95rem] sm:text-base"}`}>QUERO COMEÇAR O PLANO BILÍNGUE</a>;
 }
 
 function Heading({ children }: { children: ReactNode }) {
@@ -103,6 +103,9 @@ const samples: [string, string][] = [
 function LandingPage() {
   const [showSticky, setShowSticky] = useState(false);
   const [zoom, setZoom] = useState<number | null>(null);
+  useEffect(() => {
+    trackViewContent(); // também garante o init do Pixel (PageView no código base)
+  }, []);
   useEffect(() => {
     const update = () => setShowSticky(window.scrollY > 500);
     update();
