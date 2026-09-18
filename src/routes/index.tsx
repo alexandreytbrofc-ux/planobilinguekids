@@ -24,6 +24,7 @@ import sample41 from "../assets/amostra-41.png.asset.json";
 import sample42 from "../assets/amostra-42.png.asset.json";
 import sample43 from "../assets/amostra-43.png.asset.json";
 import sample44 from "../assets/amostra-44.png.asset.json";
+import { trackInitiateCheckout, trackViewContent } from "../lib/meta-pixel";
 
 const checkout = "https://pay.cakto.com.br/peddctb_1061126";
 
