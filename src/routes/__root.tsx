@@ -127,6 +127,9 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <noscript>
+        <img height="1" width="1" style={{ display: "none" }} src="https://www.facebook.com/tr?id=2400052707493255&ev=PageView&noscript=1" alt="" />
+      </noscript>
     </QueryClientProvider>
   );
 }
